@@ -1,0 +1,82 @@
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+repositories {
+    // JourneyMap API (TeamJM 公式 maven)
+    maven {
+        name = "JourneyMap (TeamJM)"
+        url = "https://jm.gserv.me/repository/maven-public/"
+    }
+    // Modrinth maven (EC / NC / FCAP)
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content { includeGroup "maven.modrinth" }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    // Mojang 公式マッピング使用 (ResourceLocation/Component 等 Forge/NeoForge と同名)
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modImplementation "maven.modrinth:forge-config-api-port:${fcap_version}"
+
+    // Production (compileOnly: jar に含めない)
+    modCompileOnly "maven.modrinth:explorers-compass:${ec_version}"
+    modCompileOnly "maven.modrinth:natures-compass:${nc_version}"
+    // 注: JourneyMap API Fabric jar は Loom 1.14 (未公開) ビルドで modCompileOnly 不可、
+    //     かつ intermediary mapping のため compileOnly でも Mojang 名と整合せず。
+    //     v2.0 Fabric では JM 連携を disable。chat 通知のみ動作。
+    //     v2.1 で reflection ベースの JM hook を予定。
+    // FCAP の transitive: UnmodifiableConfig (com.electronwill.night-config) を compileOnly で公開
+    compileOnly "com.electronwill.night-config:core:3.6.7"
+
+    // Dev-only (runClient テスト用)
+    modRuntimeOnly "maven.modrinth:explorers-compass:${ec_version}"
+    modRuntimeOnly "maven.modrinth:natures-compass:${nc_version}"
+    // 注: JM Fabric jar は Loom 1.14 (未公開) build なので modRuntimeOnly 不可
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": minecraft_version,
+                "loader_version": loader_version,
+                "fabric_version": fabric_version,
+                "mod_id": mod_id,
+                "mod_name": mod_name,
+                "mod_description": mod_description,
+                "mod_authors": mod_authors,
+                "mod_license": mod_license
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 21
+}
+
+java {
+    // Loom が Yarn と remapping を扱うので、Java 21 のみ宣言
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${mod_id}" }
+    }
+}

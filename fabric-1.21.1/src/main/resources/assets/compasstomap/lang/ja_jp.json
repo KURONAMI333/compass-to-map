@@ -1,0 +1,9 @@
+{
+  "message.compasstomap.structure_found": "%s を %s で発見しました",
+  "message.compasstomap.biome_found": "バイオーム %s を %s で発見しました",
+
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "機能",
+  "compasstomap.config.notification": "通知",
+  "compasstomap.config.appearance": "見た目"
+}

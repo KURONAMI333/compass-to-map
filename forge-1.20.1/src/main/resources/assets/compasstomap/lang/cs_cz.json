@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Objevena struktura %s na %s",
+  "message.compasstomap.biome_found": "Objeven biom %s na %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Funkce",
+  "compasstomap.config.notification": "Oznámení",
+  "compasstomap.config.appearance": "Vzhled"
+}
