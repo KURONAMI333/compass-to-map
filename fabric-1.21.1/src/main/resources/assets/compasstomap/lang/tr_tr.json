@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "%s yapısı %s konumunda keşfedildi",
+  "message.compasstomap.biome_found": "%s biyomu %s konumunda keşfedildi",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Özellikler",
+  "compasstomap.config.notification": "Bildirimler",
+  "compasstomap.config.appearance": "Görünüm"
+}

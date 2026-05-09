@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Löydettiin rakenne %s kohdasta %s",
+  "message.compasstomap.biome_found": "Löydettiin biomi %s kohdasta %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Ominaisuudet",
+  "compasstomap.config.notification": "Ilmoitukset",
+  "compasstomap.config.appearance": "Ulkoasu"
+}
