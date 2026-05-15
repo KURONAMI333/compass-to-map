@@ -77,7 +77,7 @@ Explorer's Compass で構造物を検索 → 見つかった瞬間に紫色の w
 3. **Forge / NeoForge のみ**: [JourneyMap](https://modrinth.com/mod/journeymap) を導入（推奨、これがないと waypoint 登録できない）  
    **Fabric**: 現状 JM 統合 disable、チャット通知のみ ([既知制限](#known-limitations))
 4. **Fabric のみ**: [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port) を追加導入
-5. ローダー × MC バージョンに合った `compass2map-2.0.2-{loader}-{mc}.jar` を `mods/` フォルダに放り込む
+5. リリースページから、自分のローダー × MC バージョン向けの `compasstomap-2.0.3.jar`（最新版）を `mods/` フォルダに放り込む
 
 ### 構成パターン
 
