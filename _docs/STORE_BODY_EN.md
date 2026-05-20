@@ -5,13 +5,13 @@
 Found a structure or biome with Explorer's Compass or Nature's Compass, then had to **manually** punch the coordinates into JourneyMap? This addon does it for you, the instant you find it.
 
 - ✨ **Auto-waypoint on discovery** — the moment the compass locates it, a waypoint appears on JourneyMap. No manual entry.
-- 🧭 **Explorer's Compass + Nature's Compass** — structures, biomes, or both (v2.0+).
+- 🧭 **Explorer's Compass + Nature's Compass** — structures, biomes, or both.
 - 🎨 **Category color-coding** — villages, fortresses, dungeons, ocean monuments, etc. each get a colour; modded structures get a stable hash-generated colour so they stay distinguishable in big modpacks.
 - 🛡️ **OP-only `/tp` suggestion** — operators get a clickable teleport suggestion in the chat notification; survival players just see the coordinates. Server-friendly.
 - 💡 **Pure addon** — no items, no blocks, no textures. Just the automation.
 - 🛟 **Safe without JourneyMap** — inner-class isolation means it never crashes if JM isn't installed (it simply falls back to chat).
 
-## Supported loaders / versions (v2.0.0+)
+## Supported loaders / versions
 
 | Minecraft | NeoForge | Forge | Fabric |
 |---|:---:|:---:|:---:|
@@ -30,7 +30,7 @@ Found a structure or biome with Explorer's Compass or Nature's Compass, then had
 |---|---|---|
 | `feature.enabled` | true | Master switch |
 | `feature.enableStructure` | true | Explorer's Compass structure waypoints |
-| `feature.enableBiome` | true | Nature's Compass biome waypoints (v2.0+) |
+| `feature.enableBiome` | true | Nature's Compass biome waypoints |
 | `notification.notifyOnFound` | true | Chat notification on discovery |
 | `appearance.colorByCategory` | true | Category colours (off = single brand purple) |
 | `appearance.persistentWaypoints` | true | Keep waypoints across restarts |
@@ -40,7 +40,7 @@ Found a structure or biome with Explorer's Compass or Nature's Compass, then had
 | Mod | Support | Note |
 |---|---|---|
 | **Explorer's Compass** | optional | Structure-detection host |
-| **Nature's Compass** | optional (v2.0+) | Biome-detection host |
+| **Nature's Compass** | optional | Biome-detection host |
 | **JourneyMap** | optional (CLIENT only) | Waypoint target; silently ignored if absent |
 | Xaero's Minimap / Worldmap | not supported | Xaero has no public API |
 
