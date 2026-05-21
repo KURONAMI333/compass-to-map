@@ -1,4 +1,4 @@
-# Compass to Map (C2M)
+# Compass to Map
 
 > Auto-register structures **and/or biomes** you find with Explorer's Compass / Nature's Compass as JourneyMap waypoints — fully automatic.
 
