@@ -1,67 +1,31 @@
 # Compass to Map
 
-> Auto-register structures **and/or biomes** you find with Explorer's Compass / Nature's Compass as JourneyMap waypoints — fully automatic.
+Auto-registers the structures and biomes you find with Explorer's Compass and Nature's Compass as JourneyMap waypoints, the instant you find them.
 
-Found a structure or biome with Explorer's Compass or Nature's Compass, then had to **manually** punch the coordinates into JourneyMap? This addon does it for you, the instant you find it.
+Find a structure or biome with Explorer's Compass / Nature's Compass and you normally have to punch the coordinates into JourneyMap by hand. This addon does it for you — the moment the compass locates the target, a waypoint appears.
 
-- ✨ **Auto-waypoint on discovery** — the moment the compass locates it, a waypoint appears on JourneyMap. No manual entry.
-- 🧭 **Explorer's Compass + Nature's Compass** — structures, biomes, or both.
-- 🎨 **Category color-coding** — villages, fortresses, dungeons, ocean monuments, etc. each get a colour; modded structures get a stable hash-generated colour so they stay distinguishable in big modpacks.
-- 🛡️ **OP-only `/tp` suggestion** — operators get a clickable teleport suggestion in the chat notification; survival players just see the coordinates. Server-friendly.
-- 💡 **Pure addon** — no items, no blocks, no textures. Just the automation.
-- 🛟 **Safe without JourneyMap** — inner-class isolation means it never crashes if JM isn't installed (it simply falls back to chat).
+**Features**
 
-## Supported loaders / versions
+- Auto-waypoints structures (Explorer's Compass) and biomes (Nature's Compass), or both
+- Category colour-coding for villages, fortresses, monuments, etc.; modded structures get a stable hash colour so they stay distinguishable in big packs
+- Operators get a clickable `/tp` suggestion in the discovery message; survival players just see the coordinates
+- No items, blocks, or textures — just the automation, and it falls back to a chat message if JourneyMap isn't installed
 
-| Minecraft | NeoForge | Forge | Fabric |
-|---|:---:|:---:|:---:|
-| 1.21.1 | ✅ | ✅ | ⚠️ chat-only |
-| 1.20.1 | — | ✅ | ⚠️ chat-only |
+**Config** (`config/compasstomap-common.toml`, or the in-game Mod Config GUI)
 
-- ✅ = full JourneyMap integration (auto waypoint registration)
-- ⚠️ chat-only = JM integration disabled, chat notification fallback only (see Known limitations)
-- — = NeoForge has no 1.20.1 release
+- `feature.enableStructure` / `feature.enableBiome` — toggle each compass
+- `notification.notifyOnFound` — chat notification on discovery
+- `appearance.colorByCategory` — category colours (off = single purple)
+- `appearance.persistentWaypoints` — keep waypoints across restarts
 
-## Configuration
+**Dependencies**
 
-`config/compasstomap-common.toml` (or the in-game Mod Config GUI on NeoForge/Forge):
+- At least one of [Explorer's Compass](https://modrinth.com/mod/explorers-compass) or [Nature's Compass](https://modrinth.com/mod/natures-compass) — required for detection
+- [JourneyMap](https://modrinth.com/mod/journeymap) (client) — the waypoint target; without it the mod falls back to chat
+- Fabric only: [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port)
 
-| Key | Default | Description |
-|---|---|---|
-| `feature.enabled` | true | Master switch |
-| `feature.enableStructure` | true | Explorer's Compass structure waypoints |
-| `feature.enableBiome` | true | Nature's Compass biome waypoints |
-| `notification.notifyOnFound` | true | Chat notification on discovery |
-| `appearance.colorByCategory` | true | Category colours (off = single brand purple) |
-| `appearance.persistentWaypoints` | true | Keep waypoints across restarts |
+On the Fabric builds, JourneyMap waypoint registration is currently disabled and only the chat notification works (the JourneyMap Fabric jar needs an unreleased Loom version); discovery messages still work normally.
 
-## Compatibility
+Install on the server and on each client — the server detects discoveries and tells the client, which registers the waypoint.
 
-| Mod | Support | Note |
-|---|---|---|
-| **Explorer's Compass** | optional | Structure-detection host |
-| **Nature's Compass** | optional | Biome-detection host |
-| **JourneyMap** | optional (CLIENT only) | Waypoint target; silently ignored if absent |
-| Xaero's Minimap / Worldmap | not supported | Xaero has no public API |
-
-At least one of Explorer's Compass / Nature's Compass is required for detection to do anything; with neither, the mod loads and stays idle.
-
-## Known limitations
-
-**Fabric builds — JourneyMap integration disabled.** On the 1.20.1 / 1.21.1 Fabric builds, automatic JM waypoint registration is currently disabled and only the chat notification fallback works. Reason: the JourneyMap Fabric jar requires Loom 1.14, which is unreleased; the current Loom can't link the JM API. Structure/biome discovery messages (with the OP `/tp` suggestion) still work normally. A reflection-bridge workaround is planned.
-
-**No NeoForge 1.20.1 build** — NeoForge is derived from 1.21+. Use the Forge 1.20.1 build for 1.20.1.
-
-## Install
-
-1. Install your loader for your MC version (1.21.1 → NeoForge / Forge / Fabric · 1.20.1 → Forge / Fabric).
-2. Install at least one of [Explorer's Compass](https://modrinth.com/mod/explorers-compass) / [Nature's Compass](https://modrinth.com/mod/natures-compass) (both is fine).
-3. **Forge / NeoForge:** install [JourneyMap](https://modrinth.com/mod/journeymap) (recommended — without it there's no waypoint registration). **Fabric:** JM integration is currently disabled (chat-only).
-4. **Fabric only:** also install [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port).
-5. Drop the `compasstomap-2.0.3.jar` for your loader/MC (latest) from the releases page into `mods/`.
-
-## License
-
-MIT — modpack use, modification and redistribution OK, credit not required (welcome).
-
-Author: KURONAMI · Built on Explorer's Compass / Nature's Compass / JourneyMap.
+Free to use in any modpack. Source and issues: https://github.com/KURONAMI333/compass-to-map
