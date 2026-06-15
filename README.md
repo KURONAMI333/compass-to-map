@@ -12,6 +12,7 @@
 
 | Minecraft | NeoForge | Forge | Fabric |
 |---|:---:|:---:|:---:|
+| 1.21.4 | ✅ | — | ✅ |
 | 1.21.1 | ✅ | ✅ | ⚠️ chat-only |
 | 1.20.1 |  —  | ✅ | ⚠️ chat-only |
 
@@ -122,14 +123,10 @@ Explorer's Compass で構造物を検索 → 見つかった瞬間に紫色の w
 
 ## Known Limitations
 
-### Fabric ビルド: JourneyMap 統合 disable
-**1.20.1 / 1.21.1 の Fabric ビルドのみ**、JourneyMap への waypoint 自動登録が現状 **無効**になっており、チャット通知のフォールバックのみ動作する。
-
-理由: JourneyMap Fabric jar が要求する Loom 1.14 がまだ unreleased で、現在の Loom 1.10-SNAPSHOT では JM API がリンクできない。
+### Fabric 旧ビルド (1.20.1 / 1.21.1): JourneyMap 統合なし
+**1.20.1 / 1.21.1 の Fabric ビルドのみ**、JourneyMap への waypoint 自動登録は無く、チャット通知のフォールバックのみ動作する（これらは Loom 1.10 ベースで JM API をリンクできない世代のビルド）。**Fabric 1.21.4 以降は NeoForge / Forge と同じくフル JM waypoint 対応**（Loom 1.14 + journeymap-api-fabric）。
 
 代替動作: 構造物・バイオーム発見時、座標を含むチャットメッセージは正常に表示される（OP には `/tp` クリック提案も付く）。
-
-将来予定: JM v1.1/v2.1 reflection bridge による迂回実装。Loom 1.14 リリースかリフレクションブリッジのどちらか早い方で解消予定。
 
 ### NeoForge 1.20.1 ビルドなし
 NeoForge は 1.21+ から派生したプロジェクトのため、1.20.1 用 NeoForge ビルドは存在しない。1.20.1 で NeoForge 系を使いたい場合は Forge 1.20.1 ビルドを使ってください。

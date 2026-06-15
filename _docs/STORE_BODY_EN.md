@@ -24,7 +24,7 @@ Find a structure or biome with Explorer's Compass / Nature's Compass and you nor
 - [JourneyMap](https://modrinth.com/mod/journeymap) (client) — the waypoint target; without it the mod falls back to chat
 - Fabric only: [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port)
 
-On the Fabric builds, JourneyMap waypoint registration is currently disabled and only the chat notification works (the JourneyMap Fabric jar needs an unreleased Loom version); discovery messages still work normally.
+JourneyMap waypoints work on every NeoForge and Forge build, and on Fabric 1.21.4 and newer. On the older Fabric builds (1.20.1 / 1.21.1) only the chat notification works; the discovery message itself works everywhere.
 
 Install on the server and on each client — the server detects discoveries and tells the client, which registers the waypoint.
 
