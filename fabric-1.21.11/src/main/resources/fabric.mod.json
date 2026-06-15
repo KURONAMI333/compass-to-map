@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": ["${mod_authors}"],
+  "contact": {
+    "homepage": "https://github.com/KURONAMI333/compass-to-map",
+    "issues":   "https://github.com/KURONAMI333/compass-to-map/issues",
+    "sources":  "https://github.com/KURONAMI333/compass-to-map"
+  },
+  "license": "${mod_license}",
+  "icon": "assets/compasstomap/icon.png",
+
+  "environment": "*",
+
+  "entrypoints": {
+    "main":   ["com.kuronami.compasstomap.CompassToMapFabric"],
+    "client": ["com.kuronami.compasstomap.CompassToMapClientFabric"],
+    "journeymap": ["com.kuronami.compasstomap.compat.jm.CompassToMapJourneyMapPlugin"]
+  },
+
+  "depends": {
+    "fabricloader":   ">=0.16",
+    "fabric-api":     "*",
+    "minecraft":      "~1.21.4",
+    "java":           ">=21",
+    "forgeconfigapiport": "*"
+  },
+
+  "suggests": {
+    "explorerscompass": "*",
+    "naturescompass":   "*",
+    "journeymap":       "*"
+  }
+}
