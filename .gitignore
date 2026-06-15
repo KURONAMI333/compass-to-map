@@ -1,3 +1,8 @@
+### Internal (not for public repo) ###
+# Fable↔Opus 引き継ぎログ
+GAP_LOG.md
+_handoff/
+
 ### Gradle ###
 .gradle
 build/
