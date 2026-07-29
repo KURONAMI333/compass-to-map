@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "在 %s 发现了结构 %s",
+  "message.compasstomap.biome_found": "在 %s 发现了生物群系 %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "功能",
+  "compasstomap.config.notification": "通知",
+  "compasstomap.config.appearance": "外观"
+}
