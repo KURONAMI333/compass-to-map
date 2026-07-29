@@ -15,9 +15,9 @@ Modrinth / CurseForge への公開・更新手順。
 ### コード・ビルド
 
 - [ ] `mod_version` を `gradle.properties` で更新（semver）
-- [ ] 各サブプロジェクトで `./gradlew clean build`（NeoForge 1.21.1 = ルート、
-      `forge-1.21.1` / `forge-1.20.1` / `fabric-1.21.1` / `fabric-1.20.1`）
+- [ ] 各サブプロジェクトで `./gradlew clean build`（NeoForge 1.21.1 = ルート、他は `<loader>-<mc>` の各ディレクトリ）
 - [ ] 各 `build/libs/compasstomap-x.y.z.jar` のサイズ確認（localRuntime 混入なし）
+- [ ] 各 jar に `LICENSE_compasstomap` が同梱されてること (`unzip -l <jar> | grep LICENSE`)
 - [ ] `./gradlew runClient` で実機確認
   - [ ] Explorer's Compass で構造物検索 → 発見 → JM waypoint 自動登録
   - [ ] Nature's Compass でバイオーム検索 → 発見 → JM waypoint 自動登録（v2.0+）
