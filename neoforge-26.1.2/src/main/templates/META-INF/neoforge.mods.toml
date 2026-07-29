@@ -18,11 +18,12 @@ Compass to Map (C2M) — Auto-register found structures (Explorer's Compass) and
 # ─────────────────────────────────────────────────
 # 必須依存
 # ─────────────────────────────────────────────────
-# NeoForge 本体: パッチまで切らずマイナーで止める (21.1.227 まで切ると無駄に競合する)
+# NeoForge 本体: パッチまで切らずマイナーで止める (26.1.2.92 まで切ると無駄に競合する)
+# 上限は次セル (26.2) の下限で閉じる。上限開放は最新セルだけの特権。
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"
-    versionRange="[21.1,)"
+    versionRange="[26.1.2,26.2)"
     ordering="NONE"
     side="BOTH"
 

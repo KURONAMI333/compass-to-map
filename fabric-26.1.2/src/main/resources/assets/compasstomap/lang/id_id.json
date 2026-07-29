@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Struktur %s ditemukan di %s",
+  "message.compasstomap.biome_found": "Bioma %s ditemukan di %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Fitur",
+  "compasstomap.config.notification": "Notifikasi",
+  "compasstomap.config.appearance": "Tampilan"
+}
