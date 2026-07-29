@@ -1,12 +1,11 @@
 package com.kuronami.compasstomap.compat.jm;
 
-import com.kuronami.compasstomap.CompassToMap;
+import com.kuronami.compasstomap.CompassToMapFabric;
 import com.kuronami.compasstomap.Config;
 import com.kuronami.compasstomap.network.BiomeFoundPayload;
 import com.kuronami.compasstomap.network.StructureFoundPayload;
 
 import net.minecraft.resources.Identifier;
-import net.neoforged.fml.ModList;
 
 /**
  * クライアント側で payload を受信して JourneyMap に waypoint 登録する。
@@ -24,7 +23,7 @@ public final class JourneyMapClientHook {
     private JourneyMapClientHook() {}
 
     public static boolean isJourneyMapLoaded() {
-        return ModList.get() != null && ModList.get().isLoaded("journeymap");
+        return net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("journeymap");
     }
 
     public static void onStructureFound(StructureFoundPayload payload) {
@@ -32,7 +31,7 @@ public final class JourneyMapClientHook {
         try {
             Inner.showStructure(payload);
         } catch (Throwable t) {
-            CompassToMap.LOGGER.warn("JourneyMap structure waypoint show failed: {}", t.toString());
+            CompassToMapFabric.LOGGER.warn("JourneyMap structure waypoint show failed: {}", t.toString());
         }
     }
 
@@ -41,7 +40,7 @@ public final class JourneyMapClientHook {
         try {
             Inner.showBiome(payload);
         } catch (Throwable t) {
-            CompassToMap.LOGGER.warn("JourneyMap biome waypoint show failed: {}", t.toString());
+            CompassToMapFabric.LOGGER.warn("JourneyMap biome waypoint show failed: {}", t.toString());
         }
     }
 
@@ -224,7 +223,7 @@ public final class JourneyMapClientHook {
         static void showStructure(StructureFoundPayload payload) {
             journeymap.api.v2.client.IClientAPI api = CompassToMapJourneyMapPlugin.api;
             if (api == null) {
-                CompassToMap.LOGGER.debug("JourneyMap API not yet initialized, skipping structure waypoint");
+                CompassToMapFabric.LOGGER.debug("JourneyMap API not yet initialized, skipping structure waypoint");
                 return;
             }
             String prettyName = prettifyResourceName(payload.structureId());
@@ -237,7 +236,7 @@ public final class JourneyMapClientHook {
         static void showBiome(BiomeFoundPayload payload) {
             journeymap.api.v2.client.IClientAPI api = CompassToMapJourneyMapPlugin.api;
             if (api == null) {
-                CompassToMap.LOGGER.debug("JourneyMap API not yet initialized, skipping biome waypoint");
+                CompassToMapFabric.LOGGER.debug("JourneyMap API not yet initialized, skipping biome waypoint");
                 return;
             }
             String prettyName = prettifyResourceName(payload.biomeId());
@@ -256,15 +255,15 @@ public final class JourneyMapClientHook {
                                               String kind) {
             journeymap.api.v2.common.waypoint.Waypoint wp =
                     journeymap.api.v2.common.waypoint.WaypointFactory.createWaypoint(
-                            CompassToMap.MODID,
+                            CompassToMapFabric.MODID,
                             pos,
                             displayName,
                             dim,
                             Config.PERSISTENT_WAYPOINTS.get()
                     );
             wp.setColor(color);
-            api.addWaypoint(CompassToMap.MODID, wp);
-            CompassToMap.LOGGER.info("JourneyMap {} waypoint registered: {} @ {} (color=0x{})",
+            api.addWaypoint(CompassToMapFabric.MODID, wp);
+            CompassToMapFabric.LOGGER.info("JourneyMap {} waypoint registered: {} @ {} (color=0x{})",
                     kind, displayName, pos, Integer.toHexString(color));
         }
     }

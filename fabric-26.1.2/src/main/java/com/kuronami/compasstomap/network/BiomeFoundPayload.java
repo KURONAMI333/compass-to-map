@@ -1,6 +1,6 @@
 package com.kuronami.compasstomap.network;
 
-import com.kuronami.compasstomap.CompassToMap;
+import com.kuronami.compasstomap.CompassToMapFabric;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -12,19 +12,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 
-/**
- * Nature's Compass によるバイオーム発見時にサーバ→クライアントへ送信される
- * waypoint 登録依頼 payload (v2.0 で追加)。
- *
- * @param biomeId       バイオーム ID (例: minecraft:desert)
- * @param pos           推定座標 (Y は Heightmap or fallback で補完済み)
- * @param dimension     対象ディメンション
- */
 public record BiomeFoundPayload(String biomeId, BlockPos pos, ResourceKey<Level> dimension)
         implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<BiomeFoundPayload> TYPE =
-            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(CompassToMap.MODID, "biome_found"));
+            new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(CompassToMapFabric.MODID, "biome_found"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BiomeFoundPayload> STREAM_CODEC =
             StreamCodec.composite(
@@ -35,7 +27,5 @@ public record BiomeFoundPayload(String biomeId, BlockPos pos, ResourceKey<Level>
             );
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+    public Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

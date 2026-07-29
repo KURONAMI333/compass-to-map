@@ -1,8 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    // ModDevGradle 2.0.141 supports NeoForge 26.1 / MC 26.1.
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.142'
     id 'idea'
 }
 
@@ -37,14 +36,11 @@ base {
     archivesName = mod_id
 }
 
-// Minecraft 26.1 requires Java 25.
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 neoForge {
     version = project.neo_version
 
-    // Parchment is deprecated for 26.1+ — Mojang ships official parameter
-    // names with vanilla sources now that obfuscation has been removed.
 
     runs {
         client {
@@ -97,11 +93,8 @@ dependencies {
     // Nature's Compass: 任意依存 (バイオーム DataComponent 監視のホスト、v2.0+)
     compileOnly "maven.modrinth:natures-compass:${nc_version}"
 
-    // JourneyMap API: waypoint registration (CLIENT-only effective).
-    // The 26.1.x API artifact isn't published separately yet; the 1.21.11
-    // NeoForge snapshot is the closest forward-compatible interface set
-    // (API surface is intentionally version-stable across small MC bumps).
-    compileOnly("info.journeymap:journeymap-api-neoforge:2.0.0-1.21.11-SNAPSHOT") {
+    // JourneyMap API: waypoint 登録用 (CLIENT のみ実体動作)
+    compileOnly("info.journeymap:journeymap-api-neoforge:2.0.0-26.1-SNAPSHOT") {
         changing = true
     }
 
