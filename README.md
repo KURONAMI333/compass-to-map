@@ -2,7 +2,7 @@
 
 > Auto-register found structures **and/or biomes** as JourneyMap waypoints — for Explorer's Compass and/or Nature's Compass.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-lightgrey.svg)](LICENSE)
 [![Modrinth](https://img.shields.io/badge/Modrinth-compass--to--map-00AF5C)](https://modrinth.com/mod/compass-to-map)
 [![CurseForge](https://img.shields.io/badge/CurseForge-compass--to--map-F16436)](https://www.curseforge.com/minecraft/mc-mods/compass-to-map)
 
@@ -145,7 +145,7 @@ A. 申し訳ないですが Xaero は公式 API がなく、ファイル直書�
 A. **v2.0 から対応済み**。NC を入れてれば自動でバイオーム waypoint も登録されます (色は biome カテゴリ別)。NC が入ってなくても構造物機能だけで動作します。
 
 **Q. 自分の作った modpack に入れていい？**  
-A. もちろん。MIT ライセンスなので modpack 利用 OK、許可・通知不要です。
+A. もちろん。modpack への同梱は自由です（許可・通知不要）。
 
 **Q. シングルプレイとマルチプレイ両方で動く？**  
 A. 両方対応。マルチサーバではサーバ・クライアント両方に MOD を入れてください（JourneyMap は CLIENT のみで OK）。
@@ -163,7 +163,7 @@ GitHub Issues に投げてください: [Issues](https://github.com/KURONAMI333/
 
 ## License
 
-[MIT License](LICENSE) — modpack 利用、改変、再配布 OK。クレジット不要ですが歓迎。
+[All Rights Reserved](LICENSE) — modpack への同梱は自由（許可・クレジット不要）。単体での再配布と改変版の配布は不可。ソースは読めるように公開しています。
 
 ---
 

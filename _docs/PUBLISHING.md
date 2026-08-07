@@ -37,7 +37,7 @@ Modrinth / CurseForge への公開・更新手順。
 
 - [ ] `displayURL` / `issueTrackerURL` が `github.com/KURONAMI333/compass-to-map`
 - [ ] `description` が現状機能と合致
-- [ ] `authors=KURONAMI` / `license=MIT`
+- [ ] `authors=KURONAMI` / `license=All Rights Reserved`
 
 ---
 
@@ -52,7 +52,7 @@ Modrinth / CurseForge への公開・更新手順。
 | Environment | Client + Server（JourneyMap は Client のみで可） |
 | 依存 | **Explorer's Compass / Nature's Compass のうち最低 1 つ**（両方とも任意・少なくとも片方必要）/ JourneyMap（任意・推奨、Forge/NeoForge のみ）/ Fabric は Forge Config API Port |
 | 既知制限 | Fabric ビルドは JM 統合 disable（Loom 1.14 未リリース）。チャット通知のみ |
-| License | MIT |
+| License | All Rights Reserved |
 
 > Description 本文は `README.md` をそのままコピペ（Modrinth は Markdown 可、
 > CurseForge は BBCode/HTML 変換）。jar 実ファイル名は `compasstomap-<version>.jar`
