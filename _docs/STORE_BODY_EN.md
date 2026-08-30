@@ -1,31 +1,22 @@
-# Compass to Map
+Turn structures and biomes found with Explorer's Compass or Nature's Compass into JourneyMap waypoints without copying coordinates by hand.
 
-Auto-registers the structures and biomes you find with Explorer's Compass and Nature's Compass as JourneyMap waypoints, the instant you find them.
+When either compass finishes a search, Compass to Map creates the waypoint immediately. It can handle structures, biomes, or both, depending on which compass mods are installed.
 
-Find a structure or biome with Explorer's Compass / Nature's Compass and you normally have to punch the coordinates into JourneyMap by hand. This addon does it for you — the moment the compass locates the target, a waypoint appears.
+## Features
 
-**Features**
+- **Automatic waypoints** — records each successful compass result in JourneyMap.
+- **Useful colours** — uses category colours for familiar structures and stable generated colours for modded structures.
+- **Safer discovery messages** — shows coordinates to everyone and gives operators a clickable `/tp` suggestion.
+- **Chat fallback** — still reports the discovery when JourneyMap integration is unavailable.
 
-- Auto-waypoints structures (Explorer's Compass) and biomes (Nature's Compass), or both
-- Category colour-coding for villages, fortresses, monuments, etc.; modded structures get a stable hash colour so they stay distinguishable in big packs
-- Operators get a clickable `/tp` suggestion in the discovery message; survival players just see the coordinates
-- No items, blocks, or textures — just the automation, and it falls back to a chat message if JourneyMap isn't installed
+The config can toggle structure detection, biome detection, discovery messages, category colours, and persistent waypoints.
 
-**Config** (`config/compasstomap-common.toml`, or the in-game Mod Config GUI)
+## Dependencies and limitations
 
-- `feature.enableStructure` / `feature.enableBiome` — toggle each compass
-- `notification.notifyOnFound` — chat notification on discovery
-- `appearance.colorByCategory` — category colours (off = single purple)
-- `appearance.persistentWaypoints` — keep waypoints across restarts
+At least one of [Explorer's Compass](https://modrinth.com/mod/explorers-compass) or [Nature's Compass](https://modrinth.com/mod/natures-compass) is required. [JourneyMap](https://modrinth.com/mod/journeymap) is required to create waypoints; without it, discoveries are reported in chat only.
 
-**Dependencies**
+JourneyMap integration is available on the Forge and NeoForge builds and on Fabric 1.21.4 or newer. Fabric 1.20.1 and 1.21.1 use the chat fallback. Fabric builds also require [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port).
 
-- At least one of [Explorer's Compass](https://modrinth.com/mod/explorers-compass) or [Nature's Compass](https://modrinth.com/mod/natures-compass) — required for detection
-- [JourneyMap](https://modrinth.com/mod/journeymap) (client) — the waypoint target; without it the mod falls back to chat
-- Fabric only: [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port)
+All Rights Reserved. Modpack inclusion is allowed without permission or credit.
 
-JourneyMap waypoints work on every NeoForge and Forge build, and on Fabric 1.21.4 and newer. On the older Fabric builds (1.20.1 / 1.21.1) only the chat notification works; the discovery message itself works everywhere.
-
-Install on the server and on each client — the server detects discoveries and tells the client, which registers the waypoint.
-
-Free to use in any modpack. Source and issues: https://github.com/KURONAMI333/compass-to-map
+[Source](https://github.com/KURONAMI333/compass-to-map) · [Issues](https://github.com/KURONAMI333/compass-to-map/issues)

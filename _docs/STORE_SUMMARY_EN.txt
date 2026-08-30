@@ -1,0 +1,1 @@
+Turn Explorer's Compass and Nature's Compass discoveries into colour-coded JourneyMap waypoints without copying coordinates by hand.
