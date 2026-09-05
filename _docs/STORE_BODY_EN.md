@@ -19,4 +19,6 @@ JourneyMap integration is available on the Forge and NeoForge builds and on Fabr
 
 All Rights Reserved. Modpack inclusion is allowed without permission or credit.
 
-[Source](https://github.com/KURONAMI333/compass-to-map) · [Issues](https://github.com/KURONAMI333/compass-to-map/issues)
+Bugs and questions: comment on the CurseForge page, or DM @kuronami333 on X.
+
+[Source](https://github.com/KURONAMI333/compass-to-map)
