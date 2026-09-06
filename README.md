@@ -170,7 +170,6 @@ GitHub Issues に投げてください: [Issues](https://github.com/KURONAMI333/
 ## Credits
 
 - Author: KURONAMI
-- Assist: Claude (Anthropic)
 - Built on:
   - [Explorer's Compass](https://modrinth.com/mod/explorers-compass) by ChaosTheDude / MattCzyr
   - [JourneyMap](https://modrinth.com/mod/journeymap) by TeamJM
