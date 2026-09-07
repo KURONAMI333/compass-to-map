@@ -157,7 +157,7 @@ A. JourneyMap の waypoint 管理画面から手動削除できます。v2 で�
 
 ## Bug Reports / Feature Requests
 
-GitHub Issues に投げてください: [Issues](https://github.com/KURONAMI333/compass-to-map/issues)
+CurseForge のコメント欄か、X の [@kuronami333](https://x.com/kuronami333) の DM へお願いします: [compass-to-map](https://www.curseforge.com/minecraft/mc-mods/compass-to-map)
 
 ---
 

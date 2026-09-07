@@ -9,8 +9,8 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 authors="KURONAMI"
-displayURL="https://github.com/KURONAMI333/compass-to-map"
-issueTrackerURL="https://github.com/KURONAMI333/compass-to-map/issues"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/compass-to-map"
+issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/compass-to-map/comments"
 description='''
 Compass to Map (C2M) — Auto-register found structures (Explorer's Compass) and/or biomes (Nature's Compass) as JourneyMap waypoints. Either or both compass mods supported.
 '''
