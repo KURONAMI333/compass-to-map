@@ -1,10 +1,6 @@
 package com.kuronami.compasstomap.event;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,8 +41,8 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = CompassToMap.MODID)
 public final class CompassWatcher {
 
-    private static final Map<UUID, Set<String>> SEEN_KEYS = new ConcurrentHashMap<>();
-    private static final int MAX_SEEN_PER_PLAYER = 512;
+    /** 各 player の観測状態 (dedupe / ログイン時持ち越しの判定用)。ログアウト時に破棄。 */
+    private static final Map<UUID, PlayerState> STATES = new ConcurrentHashMap<>();
 
     private static volatile boolean ecApiBroken = false;
     private static volatile boolean ncApiBroken = false;
@@ -54,8 +50,13 @@ public final class CompassWatcher {
     private CompassWatcher() {}
 
     @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        STATES.put(event.getEntity().getUUID(), new PlayerState());
+    }
+
+    @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        SEEN_KEYS.remove(event.getEntity().getUUID());
+        STATES.remove(event.getEntity().getUUID());
     }
 
     @SubscribeEvent
@@ -65,9 +66,13 @@ public final class CompassWatcher {
         if (!(event.player instanceof ServerPlayer player)) return;
         if (!(player.level() instanceof ServerLevel serverLevel)) return;
 
+        // ログイン event を取りこぼした場合の受け皿。新規に作った state は必ず priming から始まる。
+        PlayerState state = STATES.computeIfAbsent(player.getUUID(), k -> new PlayerState());
+        boolean priming = state.consumePrimingTick();
+
         if (!ecApiBroken && Config.ENABLE_STRUCTURE.get() && ModList.get().isLoaded("explorerscompass")) {
             try {
-                ECInner.tickCheck(player, serverLevel);
+                ECInner.tickCheck(player, serverLevel, state, priming);
             } catch (LinkageError | RuntimeException t) {
                 ecApiBroken = true;
                 CompassToMap.LOGGER.warn(
@@ -77,7 +82,7 @@ public final class CompassWatcher {
 
         if (!ncApiBroken && Config.ENABLE_BIOME.get() && ModList.get().isLoaded("naturescompass")) {
             try {
-                NCInner.tickCheck(player, serverLevel);
+                NCInner.tickCheck(player, serverLevel, state, priming);
             } catch (LinkageError | RuntimeException t) {
                 ncApiBroken = true;
                 CompassToMap.LOGGER.warn(
@@ -90,7 +95,8 @@ public final class CompassWatcher {
     // Explorer's Compass (構造物検出)
     // ─────────────────────────────────────────────────────────────
     private static final class ECInner {
-        static void tickCheck(ServerPlayer player, ServerLevel serverLevel) {
+        static void tickCheck(ServerPlayer player, ServerLevel serverLevel,
+                              PlayerState state, boolean priming) {
             Inventory inv = player.getInventory();
             ItemStack found = null;
             for (int i = 0; i < inv.items.size(); i++) {
@@ -108,9 +114,8 @@ public final class CompassWatcher {
             Integer z = found.get(com.chaosthedude.explorerscompass.ExplorersCompass.FOUND_Z_COMPONENT);
             if (structureId == null || x == null || z == null) return;
 
-            String dimKey = serverLevel.dimension().location().toString();
-            String key = "s|" + dimKey + "|" + structureId + "|" + x + "|" + z;
-            if (!recordSeen(player.getUUID(), key)) return;
+            String key = DedupeKeys.structure(structureId, x, z);
+            if (!state.shouldRegister(key, x, z, priming)) return;
 
             int y = estimateY(serverLevel, x, z, structureId, false);
             BlockPos pos = new BlockPos(x, y, z);
@@ -140,7 +145,8 @@ public final class CompassWatcher {
     // Nature's Compass (バイオーム検出)
     // ─────────────────────────────────────────────────────────────
     private static final class NCInner {
-        static void tickCheck(ServerPlayer player, ServerLevel serverLevel) {
+        static void tickCheck(ServerPlayer player, ServerLevel serverLevel,
+                              PlayerState state, boolean priming) {
             Inventory inv = player.getInventory();
             ItemStack found = null;
             for (int i = 0; i < inv.items.size(); i++) {
@@ -158,9 +164,8 @@ public final class CompassWatcher {
             Integer z = found.get(com.chaosthedude.naturescompass.NaturesCompass.FOUND_Z);
             if (biomeId == null || x == null || z == null) return;
 
-            String dimKey = serverLevel.dimension().location().toString();
-            String key = "b|" + dimKey + "|" + biomeId + "|" + x + "|" + z;
-            if (!recordSeen(player.getUUID(), key)) return;
+            String key = DedupeKeys.biome(biomeId);
+            if (!state.shouldRegister(key, x, z, priming)) return;
 
             int y = estimateY(serverLevel, x, z, biomeId, true);
             BlockPos pos = new BlockPos(x, y, z);
@@ -189,18 +194,6 @@ public final class CompassWatcher {
     // ─────────────────────────────────────────────────────────────
     // 共通ヘルパー
     // ─────────────────────────────────────────────────────────────
-    private static boolean recordSeen(UUID uuid, String key) {
-        Set<String> seen = SEEN_KEYS.computeIfAbsent(uuid,
-                k -> Collections.synchronizedSet(new LinkedHashSet<>()));
-        synchronized (seen) {
-            if (!seen.add(key)) return false;
-            if (seen.size() > MAX_SEEN_PER_PLAYER) {
-                Iterator<String> it = seen.iterator();
-                it.next(); it.remove();
-            }
-            return true;
-        }
-    }
 
     private static int estimateY(ServerLevel level, int x, int z, String resourceId, boolean isBiome) {
         int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);

@@ -7,6 +7,7 @@ import com.kuronami.compasstomap.network.StructureFoundPayload;
 import fuzs.forgeconfigapiport.fabric.api.forge.v4.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
@@ -37,6 +38,10 @@ public class CompassToMapFabric implements ModInitializer {
 
         // ─── Tick listener (server 側) ─────────────────────────
         ServerTickEvents.END_SERVER_TICK.register(com.kuronami.compasstomap.event.CompassWatcher::onServerTick);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+                com.kuronami.compasstomap.event.CompassWatcher.onPlayerJoin(handler.player));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+                com.kuronami.compasstomap.event.CompassWatcher.onPlayerDisconnect(handler.player));
 
         LOGGER.info("Compass to Map (Fabric 1.21.4) initialized");
     }

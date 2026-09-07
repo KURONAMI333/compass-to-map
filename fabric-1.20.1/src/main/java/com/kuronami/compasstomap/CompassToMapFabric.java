@@ -5,6 +5,7 @@ import com.mojang.logging.LogUtils;
 import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 
@@ -25,6 +26,10 @@ public class CompassToMapFabric implements ModInitializer {
     public void onInitialize() {
         ForgeConfigRegistry.INSTANCE.register(MODID, ModConfig.Type.COMMON, Config.SPEC);
         ServerTickEvents.END_SERVER_TICK.register(com.kuronami.compasstomap.event.CompassWatcher::onServerTick);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+                com.kuronami.compasstomap.event.CompassWatcher.onPlayerJoin(handler.player));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+                com.kuronami.compasstomap.event.CompassWatcher.onPlayerDisconnect(handler.player));
         LOGGER.info("Compass to Map (Fabric 1.20.1) initialized - JM integration disabled in v2.0");
     }
 }

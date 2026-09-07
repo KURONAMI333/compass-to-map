@@ -230,6 +230,8 @@ public final class JourneyMapClientHook {
             String displayName = prettyName + " ("
                     + payload.pos().getX() + ", " + payload.pos().getZ() + ")";
             int color = colorByCategory(payload.structureId());
+            // 構造物の座標は決定的なので、表示名 (座標込み) の完全一致で既存を照合できる。
+            if (alreadyRegistered(api, displayName::equals)) return;
             registerWaypoint(api, payload.pos(), displayName, payload.dimension(), color, "structure");
         }
 
@@ -244,7 +246,36 @@ public final class JourneyMapClientHook {
             String displayName = "[Biome] " + prettyName + " ("
                     + payload.pos().getX() + ", " + payload.pos().getZ() + ")";
             int color = colorByBiome(payload.biomeId());
+            // バイオームの座標は再検索のたびにぶれる (理由は DedupeKeys の javadoc) ので、
+            // 座標を除いた前半だけで照合する。末尾の " (" まで含めて前方一致を取ることで、
+            // "[Biome] Forest (" が "[Biome] Forest Hills (..." に当たらないようにする。
+            String prefix = "[Biome] " + prettyName + " (";
+            if (alreadyRegistered(api, name -> name.startsWith(prefix))) return;
             registerWaypoint(api, payload.pos(), displayName, payload.dimension(), color, "biome");
+        }
+
+        /**
+         * 既に C2M が立てた waypoint の中に、{@code nameMatches} に当たるものがあるか。
+         *
+         * <p>{@code getWaypoints(modId)} は<b>全次元ぶんの、うちが立てた waypoint だけ</b>を返す
+         * (JourneyMap API v2 で実測確認済み)。次元を跨いで照合するのは意図したもので、
+         * コンパスが「どの次元で検索したか」を持っていない以上、次元で絞ると
+         * 同じ発見が次元ごとに増える。
+         *
+         * <p>照合できなかった場合 (API 変更等) は false を返して登録を通す。
+         * 重複が1つ増えるのは、発見が丸ごと落ちるより軽い。
+         */
+        private static boolean alreadyRegistered(journeymap.api.v2.client.IClientAPI api,
+                                                  java.util.function.Predicate<String> nameMatches) {
+            try {
+                for (journeymap.api.v2.common.waypoint.Waypoint wp : api.getWaypoints(CompassToMapFabric.MODID)) {
+                    String name = wp.getName();
+                    if (name != null && nameMatches.test(name)) return true;
+                }
+            } catch (Throwable t) {
+                CompassToMapFabric.LOGGER.warn("JourneyMap waypoint lookup failed, registering anyway: {}", t.toString());
+            }
+            return false;
         }
 
         private static void registerWaypoint(journeymap.api.v2.client.IClientAPI api,
