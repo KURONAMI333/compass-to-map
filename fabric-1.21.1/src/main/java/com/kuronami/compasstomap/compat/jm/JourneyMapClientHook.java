@@ -7,18 +7,6 @@ import com.kuronami.compasstomap.network.StructureFoundPayload;
 
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * Fabric v2.0: JM 統合は無効化 (intermediary mapping × Loom 1.14 制約のため)。
- *
- * 動作：
- *  - chat 通知 (server side で発行) は通常通り動く
- *  - JM waypoint 自動登録 は v2.0 Fabric では未対応
- *
- * v2.1 計画: reflection ベースの JM hook で intermediary mapping bypass を実現。
- *
- * このクラスは prettifyResourceName / colorByCategory などのヘルパーを保持。
- * Server 側 CompassWatcher のチャット通知 prettifyResourceName 呼び出しに使用。
- */
 public final class JourneyMapClientHook {
 
     /** ブランド色 (紫) - カテゴリ別色が無効な場合に使用 */
@@ -26,20 +14,35 @@ public final class JourneyMapClientHook {
 
     private JourneyMapClientHook() {}
 
-    /** v2.0 Fabric では常に false (JM 連携無し)。 */
     public static boolean isJourneyMapLoaded() {
-        return false;
+        return net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("journeymap");
     }
 
     public static void onStructureFound(StructureFoundPayload payload) {
-        // No-op on Fabric v2.0. server-side chat 通知が通知役を担う。
-        CompassToMapFabric.LOGGER.debug(
-                "Structure waypoint received but JM integration disabled on Fabric v2.0: {}", payload.structureId());
+        dispatch(isJourneyMapLoaded(), () -> Inner.show(payload.structureId(), payload.pos(), payload.dimension(), false));
     }
 
     public static void onBiomeFound(BiomeFoundPayload payload) {
-        CompassToMapFabric.LOGGER.debug(
-                "Biome waypoint received but JM integration disabled on Fabric v2.0: {}", payload.biomeId());
+        dispatch(isJourneyMapLoaded(), () -> Inner.show(payload.biomeId(), payload.pos(), payload.dimension(), true));
+    }
+
+    static void dispatch(boolean loaded, Runnable show) {
+        if (!loaded) return;
+        try {
+            show.run();
+        } catch (RuntimeException | LinkageError e) {
+            CompassToMapFabric.LOGGER.warn("JourneyMap waypoint registration failed", e);
+        }
+    }
+
+    private static final class Inner {
+        static void show(String id, net.minecraft.core.BlockPos pos,
+                         net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> dimension,
+                         boolean biome) {
+            WaypointRegistrar.show(CompassToMapJourneyMapPlugin.api, prettifyResourceName(id), pos,
+                    dimension, biome, biome ? colorByBiome(id) : colorByCategory(id),
+                    Config.PERSISTENT_WAYPOINTS.get());
+        }
     }
 
     /**
@@ -64,9 +67,6 @@ public final class JourneyMapClientHook {
         }
     }
 
-    /**
-     * 構造物カテゴリ別色 (将来 v2.1 で reflection 経由 JM 登録時に使用)。
-     */
     public static int colorByCategory(String structureId) {
         if (!Config.COLOR_BY_CATEGORY.get()) return BRAND_COLOR;
         String lower = structureId.toLowerCase();

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.17.19'
     id 'maven-publish'
 }
 
@@ -24,7 +24,12 @@ repositories {
     }
 }
 
+configurations {
+    journeyMapBundle
+}
+
 dependencies {
+    journeyMapBundle "maven.modrinth:journeymap:${jm_version}"
     minecraft "com.mojang:minecraft:${minecraft_version}"
     // Mojang 公式マッピング使用 (ResourceLocation/Component 等 Forge/NeoForge と同名)
     mappings loom.officialMojangMappings()
@@ -35,17 +40,27 @@ dependencies {
     // Production (compileOnly: jar に含めない)
     modCompileOnly "maven.modrinth:explorers-compass:${ec_version}"
     modCompileOnly "maven.modrinth:natures-compass:${nc_version}"
-    // 注: JourneyMap API Fabric jar は Loom 1.14 (未公開) ビルドで modCompileOnly 不可、
-    //     かつ intermediary mapping のため compileOnly でも Mojang 名と整合せず。
-    //     v2.0 Fabric では JM 連携を disable。chat 通知のみ動作。
-    //     v2.1 で reflection ベースの JM hook を予定。
+    modCompileOnly files(provider {
+        zipTree(configurations.journeyMapBundle.singleFile).matching {
+            include 'META-INF/jars/journeymap-api-fabric-*.jar'
+        }.files
+    })
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // FCAP の transitive: UnmodifiableConfig (com.electronwill.night-config) を compileOnly で公開
     compileOnly "com.electronwill.night-config:core:3.6.7"
 
     // Dev-only (runClient テスト用)
     modRuntimeOnly "maven.modrinth:explorers-compass:${ec_version}"
     modRuntimeOnly "maven.modrinth:natures-compass:${nc_version}"
-    // 注: JM Fabric jar は Loom 1.14 (未公開) build なので modRuntimeOnly 不可
+}
+
+sourceSets.test.java.srcDir '../src/test/java'
+sourceSets.test.runtimeClasspath += sourceSets.main.compileClasspath
+
+test {
+    useJUnitPlatform()
 }
 
 processResources {

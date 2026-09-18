@@ -1,7 +1,5 @@
 ### Internal (not for public repo) ###
 # Fable↔Opus 引き継ぎログ
-GAP_LOG.md
-_handoff/
 
 ### Gradle ###
 .gradle
@@ -50,3 +48,6 @@ repo/
 # not redistribute. Each developer must download these themselves.
 libs-local/
 **/libs-local/
+
+### Dev run logs (written by Loom per cell) ###
+logs/

@@ -1,15 +1,28 @@
 package com.kuronami.compasstomap;
 
-import net.fabricmc.api.ClientModInitializer;
+import com.kuronami.compasstomap.event.ClientDispatch;
+import com.kuronami.compasstomap.compat.jm.JourneyMapClientHook;
 
-/**
- * Fabric 1.20.1 client init.
- * v2.0 では JM 統合 disable のため payload receiver 登録なし (server side chat 通知のみ動作)。
- */
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+
 public class CompassToMapClientFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        // No-op for v2.0 Fabric 1.20.1
+        ClientPlayNetworking.registerGlobalReceiver(ClientDispatch.STRUCTURE, (client, handler, buf, sender) -> {
+            String id = buf.readUtf();
+            BlockPos pos = buf.readBlockPos();
+            ResourceLocation dim = buf.readResourceLocation();
+            client.execute(() -> JourneyMapClientHook.show(id, pos, dim, false));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(ClientDispatch.BIOME, (client, handler, buf, sender) -> {
+            String id = buf.readUtf();
+            BlockPos pos = buf.readBlockPos();
+            ResourceLocation dim = buf.readResourceLocation();
+            client.execute(() -> JourneyMapClientHook.show(id, pos, dim, true));
+        });
     }
 }

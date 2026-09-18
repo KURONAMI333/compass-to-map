@@ -17,7 +17,8 @@
 
   "entrypoints": {
     "main":   ["com.kuronami.compasstomap.CompassToMapFabric"],
-    "client": ["com.kuronami.compasstomap.CompassToMapClientFabric"]
+    "client": ["com.kuronami.compasstomap.CompassToMapClientFabric"],
+    "journeymap": ["com.kuronami.compasstomap.compat.jm.CompassToMapJourneyMapPlugin"]
   },
 
   "depends": {

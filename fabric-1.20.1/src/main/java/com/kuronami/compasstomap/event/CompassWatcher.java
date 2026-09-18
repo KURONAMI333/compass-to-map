@@ -105,6 +105,9 @@ public final class CompassWatcher {
 
             int y = estimateY(serverLevel, x, z, structureId, false);
 
+            ClientDispatch.sendStructure(player, structureId, new net.minecraft.core.BlockPos(x, y, z),
+                    serverLevel.dimension());
+
             if (Config.NOTIFY_ON_FOUND.get()) {
                 String prettyName = prettifyResourceName(structureId);
                 sendChatNotification(player, "message.compasstomap.structure_found", prettyName, x, y, z);
@@ -150,6 +153,9 @@ public final class CompassWatcher {
             if (!state.shouldRegister(key, x, z, priming)) return;
 
             int y = estimateY(serverLevel, x, z, biomeId, true);
+
+            ClientDispatch.sendBiome(player, biomeId, new net.minecraft.core.BlockPos(x, y, z),
+                    serverLevel.dimension());
 
             if (Config.NOTIFY_ON_FOUND.get()) {
                 String prettyName = prettifyResourceName(biomeId);

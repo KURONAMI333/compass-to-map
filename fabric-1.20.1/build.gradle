@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.17.19'
     id 'maven-publish'
 }
 
@@ -18,7 +18,12 @@ repositories {
     }
 }
 
+configurations {
+    journeyMapBundle
+}
+
 dependencies {
+    journeyMapBundle 'maven.modrinth:journeymap:1.20.1-6.0.4+fabric'
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
@@ -32,7 +37,21 @@ dependencies {
     modRuntimeOnly "maven.modrinth:natures-compass:${nc_version}"
 
     compileOnly "com.electronwill.night-config:core:3.6.7"
-    // 注: JM Fabric 1.20.1 も Loom 1.14 build → JM 連携 v2.1 で reflection 実装予定
+    modCompileOnly files(provider {
+        zipTree(configurations.journeyMapBundle.singleFile).matching {
+            include 'META-INF/jars/journeymap-api-fabric-*.jar'
+        }.files
+    })
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets.test.java.srcDir '../src/test/java'
+sourceSets.test.runtimeClasspath += sourceSets.main.compileClasspath
+
+test {
+    useJUnitPlatform()
 }
 
 processResources {
