@@ -70,9 +70,7 @@ dependencies {
     //     libs-local/ に手動 download したファイルを fg.deobf する。
     compileOnly fg.deobf(files("libs-local/ExplorersCompass-1.20.1-1.4.0-forge.jar"))
     compileOnly fg.deobf(files("libs-local/NaturesCompass-1.20.1-1.12.0-forge.jar"))
-    compileOnly("info.journeymap:journeymap-api:2.0+1.20-forge-SNAPSHOT") {
-        changing = true
-    }
+    compileOnly fg.deobf(files("libs-local/journeymap-1.20.1-5.10.5-forge.jar"))
 
     // Dev-only
     runtimeOnly fg.deobf(files("libs-local/ExplorersCompass-1.20.1-1.4.0-forge.jar"))

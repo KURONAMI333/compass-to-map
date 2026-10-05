@@ -15,7 +15,7 @@ The config can toggle structure detection, biome detection, discovery messages, 
 
 At least one of [Explorer's Compass](https://modrinth.com/mod/explorers-compass) or [Nature's Compass](https://modrinth.com/mod/natures-compass) is required. [JourneyMap](https://modrinth.com/mod/journeymap) is required to create waypoints; without it, discoveries are reported in chat only.
 
-JourneyMap integration is available on the Forge and NeoForge builds and on Fabric 1.21.4 or newer. Fabric 1.20.1 and 1.21.1 use the chat fallback. Fabric builds also require [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port).
+JourneyMap integration is available on Forge and NeoForge and on Fabric 1.21.4 or newer. Fabric 1.20.1 and 1.21.1 gained it in version 2.1.0; earlier releases for those two versions report discoveries in chat only. Forge 1.20.1 targets JourneyMap 5.10.5. Fabric 1.20.1 and newer cells use JourneyMap 6.x. Fabric builds also require [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port).
 
 All Rights Reserved. Modpack inclusion is allowed without permission or credit.
 

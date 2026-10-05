@@ -1,62 +1,12 @@
-### Gradle ###
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/**/build/
+# Changelog
 
-### IntelliJ IDEA ###
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/**/out/
+## v2.1.1 - Unreleased
 
-.run/
+- Fix JourneyMap 5.10.5 waypoint registration on Forge 1.20.1.
+### Fixed
+- Fix missed discoveries when an older found compass precedes another compass in the inventory or offhand.
+- Suppress every carried-over result observed at login, including multiple compasses for the same biome.
+- Correct the minimum Minecraft version of the Fabric 1.21.11 build.
+- Clarify JourneyMap support in Fabric 1.20.1 and 1.21.1 since 2.1.0.
 
-### Eclipse ###
-.apt_generated
-.classpath
-.eclipse/
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/**/bin/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
-### Minecraft Modding ###
-run/
-!**/src/**/run/
-**/src/generated/**/.cache/
-repo/
-!**/src/**/repo/
-# Local maven publish output (`./gradlew publish`). W5 commits this to the repo's
-# `maven` branch for raw-URL distribution; on main it stays out of history.
-maven/
-
-### 3rd-party jars (NOT redistributable) ###
-libs-local/
-**/libs-local/
-
-### Unused scaffold remnants (NeoForge 1.21.1 single target) ###
-forge-1.21.1/
-fabric-1.21.1/
-forge-1.20.1/
-fabric-1.20.1/
-
-### Branding / publish tooling (icon ships via src/main/resources/isekai_api.png) ###
-branding/
-
-### Internal handoff / gap tracking — never published ###
-
-### Python (repo tooling) ###
-__pycache__/
-*.pyc
+Earlier release notes are available in the [GitHub releases](https://github.com/KURONAMI333/compass-to-map/releases).

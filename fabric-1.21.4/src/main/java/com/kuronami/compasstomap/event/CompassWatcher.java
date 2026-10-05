@@ -98,16 +98,16 @@ public final class CompassWatcher {
         static void tickCheck(ServerPlayer player, ServerLevel serverLevel,
                               PlayerState state, boolean priming) {
             Inventory inv = player.getInventory();
-            ItemStack found = null;
             for (int i = 0; i < inv.items.size(); i++) {
                 ItemStack stack = inv.items.get(i);
-                if (isFound(stack)) { found = stack; break; }
+                if (isFound(stack)) processFound(stack, player, serverLevel, state, priming);
             }
-            if (found == null) {
-                ItemStack off = inv.offhand.get(0);
-                if (isFound(off)) found = off;
-            }
-            if (found == null) return;
+            ItemStack off = inv.offhand.get(0);
+            if (isFound(off)) processFound(off, player, serverLevel, state, priming);
+        }
+
+        private static void processFound(ItemStack found, ServerPlayer player, ServerLevel serverLevel,
+                                         PlayerState state, boolean priming) {
 
             String structureId = found.get(com.chaosthedude.explorerscompass.ExplorersCompass.STRUCTURE_ID_COMPONENT);
             Integer x = found.get(com.chaosthedude.explorerscompass.ExplorersCompass.FOUND_X_COMPONENT);
@@ -149,16 +149,16 @@ public final class CompassWatcher {
         static void tickCheck(ServerPlayer player, ServerLevel serverLevel,
                               PlayerState state, boolean priming) {
             Inventory inv = player.getInventory();
-            ItemStack found = null;
             for (int i = 0; i < inv.items.size(); i++) {
                 ItemStack stack = inv.items.get(i);
-                if (isFound(stack)) { found = stack; break; }
+                if (isFound(stack)) processFound(stack, player, serverLevel, state, priming);
             }
-            if (found == null) {
-                ItemStack off = inv.offhand.get(0);
-                if (isFound(off)) found = off;
-            }
-            if (found == null) return;
+            ItemStack off = inv.offhand.get(0);
+            if (isFound(off)) processFound(off, player, serverLevel, state, priming);
+        }
+
+        private static void processFound(ItemStack found, ServerPlayer player, ServerLevel serverLevel,
+                                         PlayerState state, boolean priming) {
 
             // 注: NC Fabric は NeoForge と命名規則が違う:
             //   NF: BIOME_ID, COMPASS_STATE, FOUND_X, FOUND_Z

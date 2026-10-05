@@ -221,7 +221,7 @@ public final class JourneyMapClientHook {
      * JM 不在時に NoClassDefFoundError を起こさない。
      */
     private static final class Inner {
-        static void showStructure(StructureFoundPayload payload) {
+        static void showStructure(StructureFoundPayload payload) throws Exception {
             journeymap.client.api.IClientAPI api = CompassToMapJourneyMapPlugin.api;
             if (api == null) {
                 CompassToMap.LOGGER.debug("JourneyMap API not yet initialized, skipping structure waypoint");
@@ -236,7 +236,7 @@ public final class JourneyMapClientHook {
             registerWaypoint(api, payload.pos(), displayName, payload.dimension(), color, "structure");
         }
 
-        static void showBiome(BiomeFoundPayload payload) {
+        static void showBiome(BiomeFoundPayload payload) throws Exception {
             journeymap.client.api.IClientAPI api = CompassToMapJourneyMapPlugin.api;
             if (api == null) {
                 CompassToMap.LOGGER.debug("JourneyMap API not yet initialized, skipping biome waypoint");
@@ -254,12 +254,12 @@ public final class JourneyMapClientHook {
             registerWaypoint(api, payload.pos(), displayName, payload.dimension(), color, "biome");
         }
 
-        // JM 1.20.1 v1 API は Waypoint.Builder pattern (1.21+ の WaypointFactory とは別)
+        // JM 1.20.1 v1 API は display.Waypoint と IClientAPI.show を使う。
         /**
          * 既に C2M が立てた waypoint の中に、{@code nameMatches} に当たるものがあるか。
          *
          * <p>{@code getWaypoints(modId)} は<b>全次元ぶんの、うちが立てた waypoint だけ</b>を返す
-         * (JourneyMap API v2 で実測確認済み)。次元を跨いで照合するのは意図したもので、
+         * (固定ホスト JM 5.10.5 の v1 API で確認済み)。次元を跨いで照合するのは意図したもので、
          * コンパスが「どの次元で検索したか」を持っていない以上、次元で絞ると
          * 同じ発見が次元ごとに増える。
          *
@@ -269,7 +269,7 @@ public final class JourneyMapClientHook {
         private static boolean alreadyRegistered(journeymap.client.api.IClientAPI api,
                                                   java.util.function.Predicate<String> nameMatches) {
             try {
-                for (journeymap.common.api.waypoint.Waypoint wp : api.getWaypoints(CompassToMap.MODID)) {
+                for (journeymap.client.api.display.Waypoint wp : api.getWaypoints(CompassToMap.MODID)) {
                     String name = wp.getName();
                     if (name != null && nameMatches.test(name)) return true;
                 }
@@ -284,16 +284,12 @@ public final class JourneyMapClientHook {
                                               String displayName,
                                               net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> dim,
                                               int color,
-                                              String kind) {
-            journeymap.common.api.waypoint.Waypoint wp =
-                    new journeymap.common.api.waypoint.Waypoint.Builder(CompassToMap.MODID)
-                            .withName(displayName)
-                            .withBlockPos(pos)
-                            .withDimension(dim)
-                            .withColorInt(color)
-                            .isPersistent(Config.PERSISTENT_WAYPOINTS.get())
-                            .build();
-            api.addWaypoint(CompassToMap.MODID, wp);
+                                              String kind) throws Exception {
+            journeymap.client.api.display.Waypoint wp =
+                    new journeymap.client.api.display.Waypoint(CompassToMap.MODID, displayName, dim, pos);
+            wp.setColor(color);
+            wp.setPersistent(Config.PERSISTENT_WAYPOINTS.get());
+            api.show(wp);
             CompassToMap.LOGGER.info("JourneyMap {} waypoint registered: {} @ {} (color=0x{})",
                     kind, displayName, pos, Integer.toHexString(color));
         }
