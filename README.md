@@ -45,3 +45,7 @@ Downloads: [CurseForge](https://www.curseforge.com/minecraft/mc-mods/compass-to-
 For bugs and questions, comment on the [CurseForge page](https://www.curseforge.com/minecraft/mc-mods/compass-to-map) or DM [@kuronami333 on X](https://x.com/kuronami333).
 
 [Source](https://github.com/KURONAMI333/compass-to-map) · [License](LICENSE)
+
+## Download filenames
+
+From version 2.1.1, release files use `compass-to-map-journeymap-<minecraft>-<loader>-<modversion>.jar`, for example `compass-to-map-journeymap-1.21.1-neoforge-2.1.1.jar`.
