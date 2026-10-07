@@ -48,4 +48,4 @@ For bugs and questions, comment on the [CurseForge page](https://www.curseforge.
 
 ## Download filenames
 
-From version 2.1.1, release files use `compass-to-map-journeymap-<minecraft>-<loader>-<modversion>.jar`, for example `compass-to-map-journeymap-1.21.1-neoforge-2.1.1.jar`.
+From version 2.1.1, release files use `compass-to-map-journeymap-<modversion>+<loader>-<minecraft>.jar`, for example `compass-to-map-journeymap-2.1.1+neoforge-1.21.1.jar`.

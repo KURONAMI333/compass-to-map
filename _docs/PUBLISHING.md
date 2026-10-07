@@ -16,7 +16,7 @@ Modrinth / CurseForge への公開・更新手順。
 
 - [ ] `mod_version` を `gradle.properties` で更新（semver）
 - [ ] 各サブプロジェクトで `./gradlew clean build --no-build-cache`（NeoForge 1.21.1 = ルート、他は `<loader>-<mc>` の各ディレクトリ）
-- [ ] 各 `build/libs/compass-to-map-journeymap-<minecraft>-<loader>-<modversion>.jar` のサイズ確認（localRuntime 混入なし）
+- [ ] 各 `build/libs/compass-to-map-journeymap-<modversion>+<loader>-<minecraft>.jar` のサイズ確認（localRuntime 混入なし）
 - [ ] 各 jar に `LICENSE_compasstomap` が同梱されてること (`unzip -l <jar> | grep LICENSE`)
 - [ ] 所有者付きの既存runclientラッパー で実機確認
   - [ ] Explorer's Compass で構造物検索 → 発見 → JM waypoint 自動登録
@@ -28,7 +28,7 @@ Modrinth / CurseForge への公開・更新手順。
 
 ### ドキュメント
 
-- [ ] `README.md` の機能 / 設定 / 互換 / インストール（jar 名 `compass-to-map-journeymap-<minecraft>-<loader>-<modversion>.jar`）が最新
+- [ ] `README.md` の機能 / 設定 / 互換 / インストール（jar 名 `compass-to-map-journeymap-<modversion>+<loader>-<minecraft>.jar`）が最新
 - [ ] `LICENSE` 存在
 - [ ] `_docs/ROADMAP.md` / `_docs/CHANGELOG.md` 更新
 - [ ] バージョン番号が各所一致（`gradle.properties`・mods.toml/fabric.mod.json・README）
@@ -55,7 +55,7 @@ Modrinth / CurseForge への公開・更新手順。
 | License | All Rights Reserved |
 
 > Description 本文は `README.md` をそのままコピペ（Modrinth は Markdown 可、
-> CurseForge は BBCode/HTML 変換）。jar 実ファイル名は `compass-to-map-journeymap-<minecraft>-<loader>-<modversion>.jar`
+> CurseForge は BBCode/HTML 変換）。jar 実ファイル名は `compass-to-map-journeymap-<modversion>+<loader>-<minecraft>.jar`
 > （Minecraft・loader・MOD版をファイル名とストアのタグで区別）。
 
 ---
