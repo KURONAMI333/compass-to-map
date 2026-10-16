@@ -52,7 +52,10 @@ public final class JourneyMapClientHook {
      */
     public static String prettifyResourceName(String resourceId) {
         try {
-            ResourceLocation rl = ResourceLocation.parse(resourceId);
+            ResourceLocation rl = ResourceLocation.tryParse(resourceId);
+            if (rl == null) {
+                return resourceId;
+            }
             String path = rl.getPath();
             String[] parts = path.split("_");
             StringBuilder sb = new StringBuilder();
@@ -103,8 +106,8 @@ public final class JourneyMapClientHook {
 
         // MOD 構造物 → hash 色
         try {
-            ResourceLocation rl = ResourceLocation.parse(structureId);
-            if (!"minecraft".equals(rl.getNamespace())) {
+            ResourceLocation rl = ResourceLocation.tryParse(structureId);
+            if (rl != null && !"minecraft".equals(rl.getNamespace())) {
                 int hue = Math.floorMod(structureId.hashCode(), 360);
                 return hslToRgb(hue, 0.7f, 0.55f);
             }
@@ -180,8 +183,8 @@ public final class JourneyMapClientHook {
 
         // MOD バイオーム → hash 色 (構造物との視認区別のため saturation 低め)
         try {
-            ResourceLocation rl = ResourceLocation.parse(biomeId);
-            if (!"minecraft".equals(rl.getNamespace())) {
+            ResourceLocation rl = ResourceLocation.tryParse(biomeId);
+            if (rl != null && !"minecraft".equals(rl.getNamespace())) {
                 int hue = Math.floorMod(biomeId.hashCode(), 360);
                 return hslToRgb(hue, 0.55f, 0.6f); // 構造物 (S=0.7, L=0.55) よりパステル寄り
             }
