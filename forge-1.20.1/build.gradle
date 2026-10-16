@@ -67,6 +67,64 @@ repositories {
     }
 }
 
+// dev 実行専用: libs-local の jar を ForgeGradle に SRG→開発名へ remap させる。
+// fg.deobf(files(...)) は jar を remap せず素通しにする (実行時 NoSuchMethodError: Minecraft.m_91087_ / Item$Properties.m_41487_)。
+// remap されるのは maven 座標の依存だけなので、同じ jar を build/dev-maven に置いて座標経由にする。
+// JourneyMap 5.10.5 の mixin は @Shadow フィールドを SRG 名 (f_104888_ / f_237498_) で宣言し refmap にも載せておらず、
+// remap 後も名前が変わらないため、その2つの定数だけ開発名へ書き換える。
+// compileOnly と公開 jar は元の libs-local の jar のまま。
+def devMavenRepo = layout.buildDirectory.dir('dev-maven').get().asFile
+def stageDevJar = { String name, String libsLocalFile, Map renames = [:] ->
+    def src = file("libs-local/${libsLocalFile}")
+    def dst = new File(devMavenRepo, "devlocal/${name}/1/${name}-1.jar")
+    if (dst.exists() && dst.lastModified() >= src.lastModified()) return
+    dst.parentFile.mkdirs()
+    // クラスファイルの CONSTANT_Utf8 エントリ (tag 1 + 長さ + 本体) をそのまま差し替える。定数の番号は変わらない
+    def utf8 = { String s ->
+        def b = s.getBytes('UTF-8')
+        def o = new ByteArrayOutputStream()
+        o.write(1); o.write((b.length >> 8) & 0xff); o.write(b.length & 0xff); o.write(b)
+        new String(o.toByteArray(), 'ISO-8859-1')
+    }
+    def tmp = new File(dst.parentFile, dst.name + '.tmp')
+    new java.util.zip.ZipFile(src).withCloseable { zf ->
+        new java.util.zip.ZipOutputStream(tmp.newOutputStream()).withCloseable { zo ->
+            zf.entries().each { e ->
+                byte[] data = e.isDirectory() ? new byte[0] : zf.getInputStream(e).bytes
+                (renames[e.name] ?: [:]).each { from, to ->
+                    def hay = new String(data, 'ISO-8859-1')
+                    def needle = utf8(from)
+                    def idx = hay.indexOf(needle)
+                    if (idx < 0 || hay.indexOf(needle, idx + 1) >= 0) {
+                        throw new GradleException("dev jar patch: ${from} not unique in ${e.name}")
+                    }
+                    data = (hay.substring(0, idx) + utf8(to) + hay.substring(idx + needle.length())).getBytes('ISO-8859-1')
+                }
+                def ne = new java.util.zip.ZipEntry(e.name)
+                ne.time = e.time
+                zo.putNextEntry(ne)
+                zo.write(data)
+                zo.closeEntry()
+            }
+        }
+    }
+    tmp.renameTo(dst)
+}
+stageDevJar('journeymap', 'journeymap-1.20.1-5.10.5-forge.jar', [
+    'journeymap/common/mixin/client/ClientPacketListenerMixin.class': ['f_104888_': 'minecraft'],
+    'journeymap/common/mixin/client/TranslatableContentsMixin.class': ['f_237498_': 'args'],
+])
+stageDevJar('explorerscompass', 'ExplorersCompass-1.20.1-1.4.0-forge.jar')
+stageDevJar('naturescompass', 'NaturesCompass-1.20.1-1.12.0-forge.jar')
+repositories {
+    maven {
+        name = 'devLocalJars'
+        url = devMavenRepo.toURI()
+        metadataSources { artifact() }
+        content { includeGroup 'devlocal' }
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
@@ -78,9 +136,9 @@ dependencies {
     compileOnly fg.deobf(files("libs-local/journeymap-1.20.1-5.10.5-forge.jar"))
 
     // Dev-only
-    runtimeOnly fg.deobf(files("libs-local/ExplorersCompass-1.20.1-1.4.0-forge.jar"))
-    runtimeOnly fg.deobf(files("libs-local/NaturesCompass-1.20.1-1.12.0-forge.jar"))
-    runtimeOnly fg.deobf(files("libs-local/journeymap-1.20.1-5.10.5-forge.jar"))
+    runtimeOnly fg.deobf("devlocal:explorerscompass:1")  // 実行用 (dev-maven 経由で remap)
+    runtimeOnly fg.deobf("devlocal:naturescompass:1")
+    runtimeOnly fg.deobf("devlocal:journeymap:1")  // 実行用 (dev-maven 経由で remap + mixin 定数の開発名化)
 }
 
 tasks.named('processResources', ProcessResources).configure {
