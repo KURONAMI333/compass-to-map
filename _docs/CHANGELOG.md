@@ -1,9 +1,10 @@
 # Changelog
 
-## v2.1.1 - Unreleased
+## v2.1.1 - 2026-11-10
 
 - Use the same release filename format for both map editions: `compass-to-map-<journeymap|xaero>-<modversion>+<loader>-<minecraft>.jar`.
 - Fix JourneyMap 5.10.5 waypoint registration on Forge 1.20.1.
+- Fix waypoints not appearing on Forge 1.20.1 when Forge is older than 47.4.
 ### Fixed
 - Fix missed discoveries when an older found compass precedes another compass in the inventory or offhand.
 - Suppress every carried-over result observed at login, including multiple compasses for the same biome.
