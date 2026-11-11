@@ -35,7 +35,8 @@ public class CompassToMap {
         NeoForge.EVENT_BUS.register(com.kuronami.compasstomap.event.CompassWatcher.class);
 
         // Config 登録
-        // 26.3 の fancymodloader 12 で COMMON は LOCAL に改名された (26.3_MIGRATION_NOTES.md)
-        modContainer.registerConfig(ModConfig.Type.LOCAL, Config.SPEC);
+        // 26.3 の fancymodloader 12 で COMMON は LOCAL に改名された (26.3_MIGRATION_NOTES.md)。
+        // LOCAL の既定ファイル名は -local.toml になるので、26.2 以前と同じ -common.toml を明示する
+        modContainer.registerConfig(ModConfig.Type.LOCAL, Config.SPEC, "compasstomap-common.toml");
     }
 }
