@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "%s 구조물을 %s에서 발견했습니다",
+  "message.compasstomap.biome_found": "%s 바이옴을 %s에서 발견했습니다",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "기능",
+  "compasstomap.config.notification": "알림",
+  "compasstomap.config.appearance": "외관"
+}

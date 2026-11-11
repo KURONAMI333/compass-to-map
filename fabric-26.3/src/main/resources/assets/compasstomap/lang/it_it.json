@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Struttura %s scoperta a %s",
+  "message.compasstomap.biome_found": "Bioma %s scoperto a %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Funzionalità",
+  "compasstomap.config.notification": "Notifiche",
+  "compasstomap.config.appearance": "Aspetto"
+}

@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Виявлено структуру %s в %s",
+  "message.compasstomap.biome_found": "Виявлено біом %s в %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Функції",
+  "compasstomap.config.notification": "Сповіщення",
+  "compasstomap.config.appearance": "Зовнішній вигляд"
+}
