@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Đã tìm thấy cấu trúc %s tại %s",
+  "message.compasstomap.biome_found": "Đã tìm thấy biome %s tại %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Tính năng",
+  "compasstomap.config.notification": "Thông báo",
+  "compasstomap.config.appearance": "Giao diện"
+}

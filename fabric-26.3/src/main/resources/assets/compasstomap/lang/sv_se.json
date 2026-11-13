@@ -1,0 +1,8 @@
+{
+  "message.compasstomap.structure_found": "Hittade struktur %s vid %s",
+  "message.compasstomap.biome_found": "Hittade biom %s vid %s",
+  "compasstomap.config.title": "Compass to Map",
+  "compasstomap.config.feature": "Funktioner",
+  "compasstomap.config.notification": "Aviseringar",
+  "compasstomap.config.appearance": "Utseende"
+}
